@@ -1,0 +1,60 @@
+from api import get_player_summary, get_player_stats
+
+def print_full_player_report(player_id):
+    global summary, stats, heroes
+    summary = get_player_summary(player_id)
+    stats = get_player_stats(player_id)
+    heroes = stats.get("heroes", {})
+
+
+    print("=== PLAYER SUMMARY ===")
+    print(f"Username: {summary.get('username')}")
+    print(f"Title: {summary.get('title')}")
+    print(f"Endorsement Level: {summary.get('endorsement', {}).get('level', 'N/A')}")
+    print(f"Avatar: {summary.get('avatar')}")
+    print(f"Namecard: {summary.get('namecard')}")
+    print(f"Last Updated: {summary.get('last_updated_at')}")
+    print("\n")
+
+    general = stats.get("general", {})
+    total = general.get("total", {})
+    average = general.get("average", {})
+
+    print("=== GENERAL TOTAL STATS ===")
+    print(f"Games Played: {general.get('games_played')}")
+    print(f"Wins: {general.get('games_won')}")
+    print(f"Losses: {general.get('games_lost')}")
+    print(f"Winrate: {general.get('winrate')}%")
+    print(f"KDA: {general.get('kda')}")
+    print(f"Time Played (seconds): {general.get('time_played')}")
+    print(f"Eliminations: {total.get('eliminations')}")
+    print(f"Deaths: {total.get('deaths')}")
+    print(f"Assists: {total.get('assists')}")
+    print(f"Damage: {total.get('damage')}")
+    print(f"Healing: {total.get('healing')}")
+    print("\n")
+
+    print("=== GENERAL AVERAGE PER GAME ===")
+    print(f"Avg Eliminations: {average.get('eliminations')}")
+    print(f"Avg Deaths: {average.get('deaths')}")
+    print(f"Avg Assists: {average.get('assists')}")
+    print(f"Avg Damage: {average.get('damage')}")
+    print(f"Avg Healing: {average.get('healing')}")
+    print("\n")
+
+    print("=== HEROES PERFORMANCE ===")
+    for hero, data in heroes.items():
+        print(f"--- {hero.upper()} ---")
+        print(f"Games Played: {data.get('games_played', 0)}")
+        print(f"Wins: {data.get('games_won', 0)}")
+        print(f"Losses: {data.get('games_lost', 0)}")
+        print(f"Winrate: {data.get('winrate', 0)}%")
+        print(f"KDA: {data.get('kda', 0)}")
+        avg = data.get("average", {})
+        print(f"Avg Eliminations: {avg.get('eliminations', 0)}")
+        print(f"Avg Deaths: {avg.get('deaths', 0)}")
+        print(f"Avg Assists: {avg.get('assists', 0)}")
+        print(f"Avg Damage: {avg.get('damage', 0)}")
+        print(f"Avg Healing: {avg.get('healing', 0)}")
+        print(f"Time Played: {data.get('time_played', 0)} seconds")
+        print("\n")
